@@ -7,7 +7,7 @@ const fs      = require('fs');
 const app  = express();
 const PORT = 3000;
 const ADMIN_KEY = 'aebuo2026admin';
-const BASE_URL  = 'http://localhost:' + PORT;
+const BASE_URL = 'https://gala-aebuo-production.up.railway.app';
 
 // ── Base de données JSON ──────────────────────────────────────────────────────
 const DB = path.join(__dirname, 'db', 'orders.json');
