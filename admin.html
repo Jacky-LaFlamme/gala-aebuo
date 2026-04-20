@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin — Gala AEBUO 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Josefin+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{--gold:#C9A227;--gold-d:#8B6914;--dark:#111;--dark2:#1a1a1a;--dark3:#222;--cream:#F5E6C8;--green:#2D8B2D;--red:#CC2200;}
+body{font-family:'Josefin Sans',sans-serif;background:var(--dark);color:var(--cream);min-height:100vh;}
+body::before{content:'';position:fixed;top:0;left:0;right:0;height:6px;z-index:100;
+  background:repeating-linear-gradient(90deg,var(--red) 0,var(--red) 18px,#F0B000 18px,#F0B000 36px,var(--green) 36px,var(--green) 54px,#111 54px,#111 63px,#F0B000 63px,#F0B000 81px,var(--red) 81px,var(--red) 99px,var(--green) 99px,var(--green) 117px);}
+
+/* LOGIN */
+#ls{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:40px 20px;}
+.lc{background:var(--dark2);border:1px solid rgba(201,162,39,.3);padding:48px 36px;max-width:370px;width:100%;position:relative;text-align:center;border-radius:2px;}
+.lc::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);}
+.lc h1{font-family:'Cormorant Garamond',serif;color:var(--gold);font-size:26px;margin-bottom:6px;}
+.lc p{color:rgba(245,230,200,.3);font-size:10px;letter-spacing:2px;margin-bottom:26px;}
+.li{width:100%;background:var(--dark3);border:1px solid rgba(201,162,39,.2);color:var(--cream);font-family:'Josefin Sans',sans-serif;font-size:14px;padding:12px 14px;outline:none;margin-bottom:13px;transition:border-color .2s;border-radius:2px;}
+.li:focus{border-color:var(--gold);}
+.lb{width:100%;background:linear-gradient(135deg,var(--gold-d),var(--gold));border:none;color:#000;font-family:'Josefin Sans',sans-serif;font-size:11px;font-weight:600;letter-spacing:3px;padding:13px;cursor:pointer;border-radius:2px;}
+#lerr{color:#ff6b6b;font-size:12px;margin-top:8px;min-height:18px;}
+
+/* DASHBOARD */
+#dash{display:none;max-width:1300px;margin:0 auto;padding:26px 20px 70px;}
+.dt{display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:26px;padding-top:12px;}
+.dt h1{font-family:'Cormorant Garamond',serif;font-size:26px;color:var(--gold);}
+.dt small{font-size:9px;letter-spacing:2px;color:rgba(245,230,200,.25);display:block;margin-top:2px;}
+.tbs{display:flex;gap:8px;flex-wrap:wrap;}
+.tb{background:transparent;border:1px solid rgba(201,162,39,.22);color:var(--gold);font-family:'Josefin Sans',sans-serif;font-size:9px;letter-spacing:2px;padding:8px 14px;cursor:pointer;transition:background .18s;border-radius:2px;}
+.tb:hover{background:rgba(201,162,39,.1);}
+.tb.ex{border-color:rgba(45,139,45,.35);color:#7BC87B;}
+.tb.ex:hover{background:rgba(45,139,45,.12);}
+.tb.dng{border-color:rgba(204,34,0,.3);color:#ff8080;}
+.tb.dng:hover{background:rgba(204,34,0,.1);}
+
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:22px;}
+.sc{background:var(--dark2);border:1px solid rgba(201,162,39,.1);padding:18px;position:relative;border-radius:2px;}
+.sc::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);}
+.sc-l{font-size:9px;letter-spacing:2px;color:rgba(245,230,200,.3);margin-bottom:7px;}
+.sc-v{font-family:'Cormorant Garamond',serif;font-size:34px;color:var(--gold);font-weight:700;line-height:1;}
+.sc-s{font-size:10px;color:rgba(201,162,39,.4);margin-top:3px;}
+
+.fils{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:16px;}
+#srch{flex:1;min-width:180px;background:var(--dark2);border:1px solid rgba(201,162,39,.15);color:var(--cream);font-family:'Josefin Sans',sans-serif;font-size:13px;padding:9px 13px;outline:none;transition:border-color .2s;border-radius:2px;}
+#srch:focus{border-color:var(--gold);}
+#srch::placeholder{color:rgba(245,230,200,.18);}
+.fb{background:var(--dark2);border:1px solid rgba(201,162,39,.15);color:rgba(245,230,200,.4);font-family:'Josefin Sans',sans-serif;font-size:9px;letter-spacing:1.5px;padding:9px 13px;cursor:pointer;transition:all .18s;border-radius:2px;}
+.fb:hover,.fb.on{background:rgba(201,162,39,.09);color:var(--gold);border-color:rgba(201,162,39,.3);}
+
+.tw{background:var(--dark2);border:1px solid rgba(201,162,39,.08);overflow-x:auto;border-radius:2px;}
+table{width:100%;border-collapse:collapse;min-width:900px;}
+thead th{background:rgba(201,162,39,.04);color:var(--gold);font-size:9px;letter-spacing:2px;padding:11px 13px;text-align:left;border-bottom:1px solid rgba(201,162,39,.1);white-space:nowrap;}
+tbody tr{border-bottom:1px solid rgba(255,255,255,.04);transition:background .13s;}
+tbody tr:hover{background:rgba(201,162,39,.04);}
+tbody td{padding:11px 13px;font-size:12px;color:rgba(245,230,200,.7);white-space:nowrap;}
+.nc{color:var(--cream);font-weight:600;font-size:13px;}
+.rc{font-family:monospace;font-size:11px;color:var(--gold-d);letter-spacing:1px;}
+
+.badge{font-size:9px;letter-spacing:1.5px;padding:3px 8px;border-radius:2px;display:inline-block;}
+.badge.en_attente{background:rgba(201,162,39,.1);color:var(--gold);border:1px solid rgba(201,162,39,.22);}
+.badge.confirme{background:rgba(45,139,45,.14);color:#7BC87B;border:1px solid rgba(45,139,45,.28);}
+.badge.annule{background:rgba(204,34,0,.09);color:#ff8080;border:1px solid rgba(204,34,0,.22);}
+
+.ab{font-family:'Josefin Sans',sans-serif;font-size:9px;letter-spacing:1.5px;padding:5px 9px;border-radius:2px;cursor:pointer;border:1px solid;transition:background .18s;}
+.ac{border-color:rgba(45,139,45,.4);color:#7BC87B;background:transparent;}
+.ac:hover{background:rgba(45,139,45,.14);}
+.ax{border-color:rgba(204,34,0,.35);color:#ff8080;background:transparent;margin-left:5px;}
+.ax:hover{background:rgba(204,34,0,.1);}
+
+.empty td{text-align:center;color:rgba(245,230,200,.18);padding:44px;font-size:10px;letter-spacing:2px;}
+
+/* QR popup */
+#qr-popup{position:fixed;inset:0;background:rgba(0,0,0,.85);display:none;align-items:center;justify-content:center;z-index:999;padding:20px;}
+#qr-popup.show{display:flex;}
+.qr-modal{background:var(--dark2);border:1px solid var(--gold);border-radius:6px;padding:36px;text-align:center;max-width:320px;width:100%;position:relative;}
+.qr-modal::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);}
+.qr-modal h3{font-family:'Cormorant Garamond',serif;color:var(--gold);font-size:22px;margin-bottom:6px;}
+.qr-modal p{color:rgba(245,230,200,.5);font-size:12px;margin-bottom:16px;}
+.qr-modal img{border:3px solid var(--gold);border-radius:6px;padding:8px;background:#fff;width:180px;}
+.qr-modal small{display:block;color:rgba(245,230,200,.3);font-size:10px;margin-top:10px;letter-spacing:1.5px;}
+.qr-close{margin-top:18px;background:transparent;border:1px solid rgba(201,162,39,.25);color:var(--gold);font-family:'Josefin Sans',sans-serif;font-size:10px;letter-spacing:2px;padding:9px 22px;cursor:pointer;border-radius:2px;}
+
+#toast{position:fixed;bottom:24px;right:24px;background:var(--dark2);border:1px solid var(--gold);color:var(--gold);font-size:11px;letter-spacing:1.5px;padding:11px 20px;border-radius:3px;z-index:9999;transform:translateY(60px);opacity:0;transition:all .3s;}
+#toast.show{transform:none;opacity:1;}
+</style>
+</head>
+<body>
+
+<div id="ls">
+  <div class="lc">
+    <h1>Espace Admin</h1>
+    <p>GALA AEBUO 2026</p>
+    <input class="li" type="password" id="ki" placeholder="Clé d'accès" onkeypress="if(event.key==='Enter')login()">
+    <button class="lb" onclick="login()">ACCÉDER</button>
+    <div id="lerr"></div>
+  </div>
+</div>
+
+<div id="dash">
+  <div class="dt">
+    <div><h1>Tableau de bord</h1><small>GALA AEBUO 2026 — BURKINA EN SCÈNE</small></div>
+    <div class="tbs">
+      <button class="tb ex" onclick="exportCSV()">⬇ CSV</button>
+      <button class="tb" onclick="load()">↻ ACTUALISER</button>
+      <button class="tb dng" onclick="logout()">DÉCONNEXION</button>
+    </div>
+  </div>
+
+  <div class="stats">
+    <div class="sc"><div class="sc-l">TOTAL COMMANDES</div><div class="sc-v" id="s0">—</div></div>
+    <div class="sc"><div class="sc-l">EN ATTENTE</div><div class="sc-v" id="s1">—</div><div class="sc-s">à vérifier</div></div>
+    <div class="sc"><div class="sc-l">CONFIRMÉES</div><div class="sc-v" id="s2">—</div></div>
+    <div class="sc"><div class="sc-l">BILLETS VENDUS</div><div class="sc-v" id="s3">—</div></div>
+    <div class="sc"><div class="sc-l">REVENUS</div><div class="sc-v" id="s4">—</div><div class="sc-s">$ CAD confirmés</div></div>
+  </div>
+
+  <div class="fils">
+    <input id="srch" placeholder="Rechercher nom, courriel, réf., nationalité..." oninput="renderTable()">
+    <button class="fb on" onclick="setF('tous',this)">TOUS</button>
+    <button class="fb" onclick="setF('en_attente',this)">EN ATTENTE</button>
+    <button class="fb" onclick="setF('confirme',this)">CONFIRMÉS</button>
+    <button class="fb" onclick="setF('annule',this)">ANNULÉS</button>
+  </div>
+
+  <div class="tw">
+    <table>
+      <thead><tr>
+        <th>RÉF.</th><th>PRÉNOM</th><th>NOM</th><th>COURRIEL</th>
+        <th>NATIONALITÉ</th><th>ALLERGIE</th><th>BILLETS</th><th>MONTANT</th>
+        <th>STATUT</th><th>RÉSERVÉ LE</th><th>CONFIRMÉ LE</th><th>ACTIONS</th>
+      </tr></thead>
+      <tbody id="tb"><tr class="empty"><td colspan="12">CHARGEMENT...</td></tr></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- QR popup -->
+<div id="qr-popup">
+  <div class="qr-modal">
+    <h3 id="qp-name">—</h3>
+    <p id="qp-info">—</p>
+    <img id="qp-img" src="" alt="QR">
+    <small>PRÉSENTER À L'ENTRÉE DU GALA</small>
+    <br><button class="qr-close" onclick="closeQR()">FERMER</button>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+let key='', all=[], fil='tous';
+
+function login(){
+  key = document.getElementById('ki').value;
+  document.getElementById('lerr').textContent = '';
+  fetch('/api/admin/orders',{headers:{'x-admin-key':key}})
+    .then(r=>{ if(!r.ok) throw 0; return r.json(); })
+    .then(d=>{ document.getElementById('ls').style.display='none'; document.getElementById('dash').style.display='block'; render(d); })
+    .catch(()=> document.getElementById('lerr').textContent='Clé incorrecte.');
+}
+
+function load(){
+  fetch('/api/admin/orders',{headers:{'x-admin-key':key}}).then(r=>r.json()).then(render);
+}
+
+function render(d){
+  all = d.orders||[];
+  document.getElementById('s0').textContent = d.stats.total;
+  document.getElementById('s1').textContent = d.stats.en_attente;
+  document.getElementById('s2').textContent = d.stats.confirmes;
+  document.getElementById('s3').textContent = d.stats.billets;
+  document.getElementById('s4').textContent = d.stats.revenus;
+  renderTable();
+}
+
+function setF(f,el){
+  fil=f;
+  document.querySelectorAll('.fb').forEach(b=>b.classList.remove('on'));
+  el.classList.add('on');
+  renderTable();
+}
+
+function renderTable(){
+  const q = document.getElementById('srch').value.toLowerCase();
+  let rows = all.filter(o=>{
+    if(fil!=='tous' && o.statut!==fil) return false;
+    if(q) return `${o.prenom} ${o.nom} ${o.email} ${o.ref} ${o.nationalite}`.toLowerCase().includes(q);
+    return true;
+  });
+  const tb = document.getElementById('tb');
+  if(!rows.length){ tb.innerHTML='<tr class="empty"><td colspan="12">AUCUNE COMMANDE</td></tr>'; return; }
+  tb.innerHTML = rows.map(o=>{
+    const acts = o.statut==='en_attente'
+      ? `<button class="ab ac" onclick="confirm_('${o.id}')">✓ CONFIRMER</button><button class="ab ax" onclick="cancel_('${o.id}')">✕</button>`
+      : o.statut==='confirme'
+        ? `<button class="ab ac" onclick="showQR('${o.id}')">QR</button><button class="ab ax" onclick="cancel_('${o.id}')">ANNULER</button>`
+        : '—';
+    return `<tr>
+      <td class="rc">${e(o.ref)}</td>
+      <td class="nc">${e(o.prenom)}</td><td class="nc">${e(o.nom)}</td>
+      <td>${e(o.email)}</td><td>${e(o.nationalite)}</td><td>${e(o.allergie)}</td>
+      <td style="text-align:center;color:var(--gold);font-weight:600;">${o.nombre_billets}</td>
+      <td style="color:var(--gold);">${o.montant} $</td>
+      <td><span class="badge ${o.statut}">${lb(o.statut)}</span></td>
+      <td style="font-size:11px;">${fmt(o.created_at)}</td>
+      <td style="font-size:11px;">${o.paid_at?fmt(o.paid_at):'—'}</td>
+      <td>${acts}</td></tr>`;
+  }).join('');
+}
+
+async function confirm_(id){
+  if(!confirm('Confirmer ce paiement ? Le billet QR sera disponible pour le participant.')) return;
+  const r = await fetch(`/api/admin/confirm/${id}`,{method:'POST',headers:{'x-admin-key':key}});
+  const d = await r.json();
+  if(d.success){ toast('✅ Paiement confirmé — billet QR généré'); load(); }
+  else toast('Erreur : '+d.error);
+}
+
+async function cancel_(id){
+  if(!confirm('Annuler cette commande ?')) return;
+  const r = await fetch(`/api/admin/cancel/${id}`,{method:'POST',headers:{'x-admin-key':key}});
+  const d = await r.json();
+  if(d.success){ toast('Commande annulée'); load(); }
+}
+
+function showQR(id){
+  const o = all.find(x=>x.id===id);
+  if(!o||!o.qr_image) return;
+  document.getElementById('qp-name').textContent = o.prenom+' '+o.nom;
+  document.getElementById('qp-info').textContent = o.nombre_billets+' billet(s) — réf. '+o.ref;
+  document.getElementById('qp-img').src = o.qr_image;
+  document.getElementById('qr-popup').classList.add('show');
+}
+
+function closeQR(){ document.getElementById('qr-popup').classList.remove('show'); }
+
+function exportCSV(){
+  const h=['Réf','Prénom','Nom','Courriel','Nationalité','Allergie','Billets','Montant','Statut','Réservé le','Confirmé le'];
+  const rows=all.map(o=>[o.ref,o.prenom,o.nom,o.email,o.nationalite,o.allergie,o.nombre_billets,o.montant+' CAD',lb(o.statut),fmt(o.created_at),o.paid_at?fmt(o.paid_at):''].map(v=>`"${String(v).replace(/"/g,'""')}"`).join(','));
+  const blob=new Blob(['\uFEFF'+[h.join(','),...rows].join('\n')],{type:'text/csv;charset=utf-8;'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=`gala_aebuo_2026_${Date.now()}.csv`; a.click();
+}
+
+function logout(){ key=''; all=[]; document.getElementById('dash').style.display='none'; document.getElementById('ls').style.display='flex'; document.getElementById('ki').value=''; }
+
+function fmt(iso){ if(!iso)return'—'; return new Date(iso).toLocaleString('fr-CA',{timeZone:'America/Toronto',hour12:false}); }
+function lb(s){ return{en_attente:'EN ATTENTE',confirme:'CONFIRMÉ',annule:'ANNULÉ'}[s]||s.toUpperCase(); }
+function e(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function toast(msg){ const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),3000); }
+</script>
+</body>
+</html>
