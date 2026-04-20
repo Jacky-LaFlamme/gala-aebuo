@@ -28,12 +28,12 @@ const updateOrder = (id, p) => {
 
 // ── Middleware ────────────────────────────────────────────────────────────────
 app.use(express.json());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(__dirname));
 
 // ── ROUTES ────────────────────────────────────────────────────────────────────
 
-app.get('/',      (_, res) => res.sendFile(path.join(__dirname, 'public', 'index.html')));
-app.get('/admin', (_, res) => res.sendFile(path.join(__dirname, 'public', 'admin.html')));
+app.get('/',      (_, res) => res.sendFile(path.join(__dirname, 'index.html')));
+app.get('/admin', (_, res) => res.sendFile(path.join(__dirname, 'admin.html')));
 
 // Enregistrer une réservation
 app.post('/api/register', (req, res) => {
